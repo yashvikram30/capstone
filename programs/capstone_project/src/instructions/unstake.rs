@@ -17,7 +17,8 @@ pub struct Unstake<'info> {
 
     #[account(
         mut,
-        seeds = [b"treasury"],
+        has_one = authority,
+        seeds = [b"treasury", authority.key().as_ref()],
         bump = treasury.bump
     )]
     pub treasury: Account<'info, Treasury>,

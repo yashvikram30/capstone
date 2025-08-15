@@ -12,7 +12,7 @@ pub struct InitializeTreasury<'info> {
         init,
         payer = authority,
         space = 8 + Treasury::INIT_SPACE,
-        seeds = [b"treasury"],
+        seeds = [b"treasury", authority.key().as_ref()],
         bump
     )]
     pub treasury: Account<'info, Treasury>,
@@ -25,7 +25,10 @@ impl <'info> InitializeTreasury <'info> {
     
     pub fn initialize_treasury(&mut self, bumps: &InitializeTreasuryBumps) -> Result<()>{
 
-        self.treasury.set_inner(Treasury { bump: bumps.treasury });
+        self.treasury.set_inner(Treasury { 
+            authority: self.authority.key(),
+            bump: bumps.treasury 
+        });
         Ok(())
     }
 }

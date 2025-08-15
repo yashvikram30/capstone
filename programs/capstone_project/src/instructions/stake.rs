@@ -20,7 +20,8 @@ pub struct Stake<'info> {
     // The central treasury to deposit funds into.
     #[account(
         mut,
-        seeds = [b"treasury"],
+        has_one = authority,
+        seeds = [b"treasury", authority.key().as_ref()],
         bump = treasury.bump
     )]
     pub treasury: Account<'info, Treasury>,
